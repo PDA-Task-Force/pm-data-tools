@@ -201,7 +201,7 @@ def strip_namespaces(element: etree._Element) -> etree._Element:
     """
     for elem in element.iter():
         # Remove namespace from tag
-        if "}" in elem.tag:
+        if isinstance(elem.tag, str) and "}" in elem.tag:
             elem.tag = elem.tag.split("}", 1)[1]
 
         # Remove namespace declarations

@@ -88,6 +88,19 @@ class TestAssignment:
 
         assert assignment.work_complete_percent is None
 
+    def test_work_complete_percent_zero_budgeted(self, source_info: SourceInfo) -> None:
+        """Test work_complete_percent returns None when budgeted work is zero."""
+        assignment = Assignment(
+            id=uuid4(),
+            task_id=uuid4(),
+            resource_id=uuid4(),
+            source=source_info,
+            budgeted_work=Duration(0.0, "hours"),
+            actual_work=Duration(10.0, "hours"),
+        )
+
+        assert assignment.work_complete_percent is None
+
     def test_cost_variance(self, source_info: SourceInfo) -> None:
         """Test cost_variance property."""
         assignment = Assignment(
@@ -102,6 +115,19 @@ class TestAssignment:
         variance = assignment.cost_variance
         assert variance is not None
         assert variance.amount == Decimal("500")
+
+    def test_cost_variance_none_when_missing(self, source_info: SourceInfo) -> None:
+        """Test cost_variance returns None when cost data is incomplete."""
+        # Only budgeted cost, no actual cost
+        assignment = Assignment(
+            id=uuid4(),
+            task_id=uuid4(),
+            resource_id=uuid4(),
+            source=source_info,
+            budgeted_cost=Money(Decimal("5000"), "GBP"),
+        )
+
+        assert assignment.cost_variance is None
 
     def test_str_representation(self, source_info: SourceInfo) -> None:
         """Test string representation."""

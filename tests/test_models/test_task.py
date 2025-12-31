@@ -270,6 +270,18 @@ class TestTask:
         result = str(task)
         assert "Critical" in result
 
+    def test_str_representation_summary(self, source_info: SourceInfo) -> None:
+        """Test string representation for summary task."""
+        task = Task(
+            id=uuid4(),
+            name="Summary Task",
+            source=source_info,
+            is_summary=True,
+        )
+
+        result = str(task)
+        assert "Summary" in result
+
     def test_custom_fields(self, source_info: SourceInfo) -> None:
         """Test task with custom fields."""
         custom = CustomField(

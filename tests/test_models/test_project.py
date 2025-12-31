@@ -206,6 +206,32 @@ class TestProject:
         assert variance is not None
         assert variance.amount == Decimal("10000")
 
+    def test_cost_variance_none_when_missing(self, source_info: SourceInfo) -> None:
+        """Test cost_variance returns None when cost data is missing."""
+        # No cost data at all
+        project = Project(
+            id=uuid4(),
+            name="Test",
+            source=source_info,
+        )
+
+        assert project.cost_variance is None
+
+    def test_completion_percent_only_summary_tasks(self, source_info: SourceInfo) -> None:
+        """Test completion_percent when project only has summary/milestone tasks (no work tasks)."""
+        summary = Task(id=uuid4(), name="Summary", source=source_info, is_summary=True)
+        milestone = Task(id=uuid4(), name="Milestone", source=source_info, is_milestone=True)
+
+        project = Project(
+            id=uuid4(),
+            name="Test",
+            source=source_info,
+            tasks=[summary, milestone],
+        )
+
+        # Should return 0.0 when there are no work tasks (line 159)
+        assert project.completion_percent == 0.0
+
     def test_high_risks(self, source_info: SourceInfo) -> None:
         """Test high_risks property."""
         low_risk = Risk(id=uuid4(), name="Low", source=source_info, probability=1, impact=2)

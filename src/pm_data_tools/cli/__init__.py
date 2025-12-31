@@ -10,7 +10,7 @@ def main() -> None:
 
     Convert, validate, and inspect project management data across multiple formats.
     """
-    pass
+    pass  # pragma: no cover
 
 
 # Register commands

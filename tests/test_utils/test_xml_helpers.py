@@ -12,6 +12,7 @@ from pm_data_tools.utils.xml_helpers import (
     get_float,
     get_bool,
     create_element,
+    write_xml_file,
     write_xml_string,
     strip_namespaces,
 )
@@ -201,6 +202,25 @@ class TestWriteXmlString:
         elem = create_element("root")
         result = write_xml_string(elem)
         assert b"<?xml" in result
+
+
+class TestWriteXmlFile:
+    """Tests for write_xml_file function."""
+
+    def test_write_file(self, tmp_path: Path) -> None:
+        """Test writing XML to file."""
+        elem = create_element("Project")
+        name_elem = create_element("Name", text="Test Project")
+        elem.append(name_elem)
+
+        output_file = tmp_path / "test.xml"
+        write_xml_file(elem, output_file)
+
+        assert output_file.exists()
+        content = output_file.read_text(encoding="utf-8")
+        assert "<?xml" in content
+        assert "<Project>" in content
+        assert "Test Project" in content
 
 
 class TestStripNamespaces:
