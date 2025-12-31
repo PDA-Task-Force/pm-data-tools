@@ -13,11 +13,12 @@ def main() -> None:
     pass
 
 
-# Commands will be registered here as they're built
-# from .commands import convert, validate, inspect
-# main.add_command(convert.convert)
-# main.add_command(validate.validate)
-# main.add_command(inspect.inspect)
+# Register commands
+from .commands import convert, validate, inspect_cmd
+
+main.add_command(convert)
+main.add_command(validate)
+main.add_command(inspect_cmd)
 
 
 if __name__ == "__main__":
