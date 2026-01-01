@@ -2,8 +2,8 @@
 
 Production-ready Python library for project management data interoperability.
 
-[![Tests](https://github.com/PDATaskForce/pm-data-tools/workflows/CI/badge.svg)](https://github.com/PDATaskForce/pm-data-tools/actions)
-[![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)](https://github.com/PDATaskForce/pm-data-tools)
+[![Tests](https://github.com/PDA-Task-Force/pm-data-tools/workflows/CI/badge.svg)](https://github.com/PDA-Task-Force/pm-data-tools/actions)
+[![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)](https://github.com/PDA-Task-Force/pm-data-tools)
 [![Python](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -42,19 +42,29 @@ pip install pm-data-tools[dev]
 
 ## Quick Start
 
-### Convert between formats
+### Parse from supported formats
 
 ```python
-from pm_data_tools import convert
+from pm_data_tools.schemas.monday import MondayParser
+from pm_data_tools.schemas.asana import AsanaParser
+from pm_data_tools.schemas.smartsheet import SmartsheetParser
+from pm_data_tools.schemas.gmpp import GMPPParser
 
-# Load Microsoft Project file
-project = convert.load("project.xml", format="mspdi")
+# Parse Monday.com data
+monday_parser = MondayParser()
+project = monday_parser.parse_file("monday_board.json")
 
-# Save as canonical JSON
-convert.save(project, "project.json", format="canonical")
+# Parse Asana data
+asana_parser = AsanaParser()
+project = asana_parser.parse_file("asana_project.json")
 
-# Convert to Primavera P6 format
-convert.save(project, "project.xer", format="p6")
+# Parse Smartsheet data
+smartsheet_parser = SmartsheetParser()
+project = smartsheet_parser.parse_file("smartsheet.json")
+
+# Parse GMPP CSV data
+gmpp_parser = GMPPParser()
+projects = gmpp_parser.parse_file("gmpp_projects.csv")
 ```
 
 ### Validate project data
@@ -100,17 +110,17 @@ The canonical model is a superset of all supported formats, enabling lossless co
 
 ## Supported Formats
 
-| Format | Read | Write | Status |
-|--------|------|-------|--------|
-| Microsoft Project (MSPDI) | ✅ | ✅ | Complete |
-| Primavera P6 (XER) | ✅ | ✅ | Complete |
-| Primavera P6 (PMXML) | ✅ | ✅ | Complete |
-| Jira | ✅ | ✅ | Beta |
-| Microsoft Planner | 🚧 | 🚧 | Planned |
-| Monday.com | 🚧 | 🚧 | Planned |
-| Asana | 🚧 | 🚧 | Planned |
-| Smartsheet | 🚧 | 🚧 | Planned |
-| GMPP | 🚧 | 🚧 | Planned |
+| Format | Read | Write | Status | Coverage |
+|--------|------|-------|--------|----------|
+| Monday.com (JSON API) | ✅ | 🚧 | v0.1.0 | 97% (32 tests) |
+| Asana (JSON API) | ✅ | 🚧 | v0.1.0 | 99% (20 tests) |
+| Smartsheet (JSON API) | ✅ | 🚧 | v0.1.0 | 94% (21 tests) |
+| GMPP (CSV) | ✅ | 🚧 | v0.1.0 | 99% (21 tests) |
+| Microsoft Project (MSPDI) | 🚧 | 🚧 | Planned | - |
+| Primavera P6 (XER) | 🚧 | 🚧 | Planned | - |
+| Primavera P6 (PMXML) | 🚧 | 🚧 | Planned | - |
+| Jira (JSON API) | 🚧 | 🚧 | Planned | - |
+| NISTA | 🚧 | 🚧 | Awaiting schema | - |
 
 ## NISTA Alignment
 
@@ -122,7 +132,7 @@ This library is designed to support the UK Government's [Programme and Project D
 
 ```bash
 # Clone repository
-git clone https://github.com/PDATaskForce/pm-data-tools.git
+git clone https://github.com/PDA-Task-Force/pm-data-tools.git
 cd pm-data-tools
 
 # Create virtual environment
@@ -187,7 +197,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for development guidelines, coding standa
 
 ## Acknowledgements
 
-Developed by [TortoiseAI](https://tortoiseai.co.uk) for the [PDA Task Force](https://github.com/PDATaskForce).
+Developed by [TortoiseAI](https://tortoiseai.co.uk) for the [PDA Task Force](https://github.com/PDA-Task-Force).
 
 Sponsored by the UK Government's Infrastructure and Projects Authority (IPA) research initiative.
 
@@ -197,8 +207,8 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ## Links
 
-- [Documentation](https://github.com/PDATaskForce/pm-data-tools#readme)
-- [Issues](https://github.com/PDATaskForce/pm-data-tools/issues)
+- [Documentation](https://github.com/PDA-Task-Force/pm-data-tools#readme)
+- [Issues](https://github.com/PDA-Task-Force/pm-data-tools/issues)
 - [Changelog](CHANGELOG.md)
 - [NISTA Programme and Project Data Standard](https://www.nista.gov.uk/)
 - [UK Government Major Projects Portfolio (GMPP)](https://www.gov.uk/government/collections/major-projects-data)
