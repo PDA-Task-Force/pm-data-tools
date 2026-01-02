@@ -1,214 +1,58 @@
-# PM Data Tools
+# ⚠️ DEPRECATED - Moved to PDA Platform
 
-Production-ready Python library for project management data interoperability.
+**This repository has been archived and is no longer maintained.**
 
-[![Tests](https://github.com/PDA-Task-Force/pm-data-tools/workflows/CI/badge.svg)](https://github.com/PDA-Task-Force/pm-data-tools/actions)
-[![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)](https://github.com/PDA-Task-Force/pm-data-tools)
-[![Python](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+All development has moved to the **PDA Platform monorepo**:
 
-## Overview
+👉 **https://github.com/PDA-Task-Force/pda-platform**
 
-PM Data Tools provides a canonical data model and conversion utilities for project management data across multiple platforms and standards. Built for UK Government NISTA (National Infrastructure and Service Transformation Authority) standard compliance.
+## What Happened?
 
-## Features
+pm-data-tools, agent-task-planning, and pm-mcp-servers have been consolidated into a single monorepo for better:
+- Unified versioning
+- Simpler dependency management
+- Consolidated documentation
+- Single IP timeline
 
-- **Canonical data model** for project management data
-- **Schema mappings** for major PM tools:
-  - Microsoft Project (MSPDI XML)
-  - Primavera P6 (XER, PMXML)
-  - Jira
-  - Microsoft Planner
-  - Monday.com
-  - Asana
-  - Smartsheet
-- **Validation framework** for structural and semantic rules
-- **CLI tools** for conversion, validation, and inspection
-- **GMPP-aligned** for UK government project data
-- **NISTA-ready** (placeholder for official schema)
-- **100% test coverage** with comprehensive test suite
+## Where to Find pm-data-tools
+
+The code is now at:
+- **Location:** `packages/pm-data-tools/` in the PDA Platform
+- **GitHub:** https://github.com/PDA-Task-Force/pda-platform/tree/main/packages/pm-data-tools
+- **Issues:** https://github.com/PDA-Task-Force/pda-platform/issues
+- **PyPI:** `pip install pm-data-tools` (still works - published from monorepo)
 
 ## Installation
+
+Nothing changes for users:
 
 ```bash
 pip install pm-data-tools
 ```
 
-For development:
+The package is still published to PyPI from the monorepo.
 
-```bash
-pip install pm-data-tools[dev]
-```
+## Documentation
 
-## Quick Start
-
-### Parse from supported formats
-
-```python
-from pm_data_tools.schemas.monday import MondayParser
-from pm_data_tools.schemas.asana import AsanaParser
-from pm_data_tools.schemas.smartsheet import SmartsheetParser
-from pm_data_tools.schemas.gmpp import GMPPParser
-
-# Parse Monday.com data
-monday_parser = MondayParser()
-project = monday_parser.parse_file("monday_board.json")
-
-# Parse Asana data
-asana_parser = AsanaParser()
-project = asana_parser.parse_file("asana_project.json")
-
-# Parse Smartsheet data
-smartsheet_parser = SmartsheetParser()
-project = smartsheet_parser.parse_file("smartsheet.json")
-
-# Parse GMPP CSV data
-gmpp_parser = GMPPParser()
-projects = gmpp_parser.parse_file("gmpp_projects.csv")
-```
-
-### Validate project data
-
-```python
-from pm_data_tools import validate
-
-result = validate("project.xml")
-
-if result.valid:
-    print("✓ Validation passed")
-else:
-    for error in result.errors:
-        print(f"✗ {error.code}: {error.message}")
-```
-
-### CLI Usage
-
-```bash
-# Convert formats
-pm-data-tools convert project.xml project.json --to canonical
-
-# Validate project file
-pm-data-tools validate project.xml
-
-# Inspect project structure
-pm-data-tools inspect project.xml
-```
-
-## Canonical Data Model
-
-The canonical model is a superset of all supported formats, enabling lossless conversion between tools.
-
-**Core entities:**
-- **Project** - Container with metadata, schedule, and financials
-- **Task** - Work items with WBS, schedule, progress, and costs
-- **Resource** - People, equipment, materials with rates
-- **Assignment** - Task-resource allocation
-- **Dependency** - Task relationships (FS, FF, SS, SF)
-- **Risk** - Risk register entries with probability/impact
-- **Milestone** - Key project dates
-- **Calendar** - Working time definitions
-
-## Supported Formats
-
-| Format | Read | Write | Status | Coverage |
-|--------|------|-------|--------|----------|
-| Monday.com (JSON API) | ✅ | 🚧 | v0.1.0 | 97% (32 tests) |
-| Asana (JSON API) | ✅ | 🚧 | v0.1.0 | 99% (20 tests) |
-| Smartsheet (JSON API) | ✅ | 🚧 | v0.1.0 | 94% (21 tests) |
-| GMPP (CSV) | ✅ | 🚧 | v0.1.0 | 99% (21 tests) |
-| Microsoft Project (MSPDI) | 🚧 | 🚧 | Planned | - |
-| Primavera P6 (XER) | 🚧 | 🚧 | Planned | - |
-| Primavera P6 (PMXML) | 🚧 | 🚧 | Planned | - |
-| Jira (JSON API) | 🚧 | 🚧 | Planned | - |
-| NISTA | 🚧 | 🚧 | Awaiting schema | - |
-
-## NISTA Alignment
-
-This library is designed to support the UK Government's [Programme and Project Data Standard](https://www.nista.gov.uk/) launched in December 2024. The GMPP schema module provides current alignment; full NISTA support will be added when the official schema is published.
-
-## Development
-
-### Setup
-
-```bash
-# Clone repository
-git clone https://github.com/PDA-Task-Force/pm-data-tools.git
-cd pm-data-tools
-
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install development dependencies
-pip install -e ".[dev]"
-
-# Install pre-commit hooks
-pre-commit install
-```
-
-### Running Tests
-
-```bash
-# Run all tests with coverage
-pytest
-
-# Run specific test file
-pytest tests/test_models/test_task.py
-
-# Run with coverage report
-pytest --cov-report=html
-```
-
-### Code Quality
-
-```bash
-# Format code
-ruff format .
-
-# Lint code
-ruff check .
-
-# Type check
-mypy src/pm_data_tools
-```
-
-## Architecture
-
-PM Data Tools follows a three-layer architecture:
-
-1. **Models Layer** (`src/pm_data_tools/models/`) - Canonical data structures
-2. **Schemas Layer** (`src/pm_data_tools/schemas/`) - Format-specific parsers and writers
-3. **Validation Layer** (`src/pm_data_tools/validators/`) - Structural and semantic validation
-
-All conversions pass through the canonical model:
-
-```
-Source Format → Parser → Canonical Model → Writer → Target Format
-```
-
-This ensures:
-- **Lossless roundtrip** conversion (Source → Canonical → Source preserves data)
-- **Consistent validation** (all formats validated against same rules)
-- **Extensibility** (new formats only need parser/writer, not N² converters)
+Full documentation is available at:
+- **Main README:** https://github.com/PDA-Task-Force/pda-platform
+- **pm-data-tools docs:** https://github.com/PDA-Task-Force/pda-platform/tree/main/packages/pm-data-tools
+- **Examples:** https://github.com/PDA-Task-Force/pda-platform/tree/main/examples
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for development guidelines, coding standards, and how to submit contributions.
+All contributions should now go to the monorepo:
+1. Fork https://github.com/PDA-Task-Force/pda-platform
+2. Make changes in `packages/pm-data-tools/`
+3. Submit PR to the monorepo
 
-## Acknowledgements
+## Timeline
 
-Developed by [TortoiseAI](https://tortoiseai.co.uk) for the [PDA Task Force](https://github.com/PDA-Task-Force).
+- **2026-01-02:** Code moved to PDA Platform monorepo
+- **2026-01-02:** This repository archived
 
-Sponsored by the UK Government's Infrastructure and Projects Authority (IPA) research initiative.
+---
 
-## License
+**Developed by members of the PDA Task Force**
 
-MIT License - see [LICENSE](LICENSE) for details.
-
-## Links
-
-- [Documentation](https://github.com/PDA-Task-Force/pm-data-tools#readme)
-- [Issues](https://github.com/PDA-Task-Force/pm-data-tools/issues)
-- [Changelog](CHANGELOG.md)
-- [NISTA Programme and Project Data Standard](https://www.nista.gov.uk/)
-- [UK Government Major Projects Portfolio (GMPP)](https://www.gov.uk/government/collections/major-projects-data)
+This work supports the NISTA Programme and Project Data Standard trial.
