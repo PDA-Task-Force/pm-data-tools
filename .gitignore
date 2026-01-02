@@ -137,3 +137,4 @@ Thumbs.db
 *.xml.bak
 *.xer.bak
 .pre-commit-config.yaml.bak
+.github/
