@@ -1,15 +1,21 @@
-"""NISTA (National Infrastructure and Strategic Transport Agency) placeholder.
+"""NISTA (Programme and Project Data Standard) schema support.
 
-NISTA is the UK government standard for infrastructure project data, launched
-in December 2025. This module is a placeholder awaiting the official schema
-release.
+This module provides parsing, validation, and export capabilities for the UK
+Government Programme and Project Data Standard (NISTA, December 2025).
 
-Once the official NISTA schema is published, this module will provide:
-- Parser for NISTA data files
-- Writer to export to NISTA format
-- Validator for NISTA compliance
-
-For now, use the GMPP parser as NISTA is expected to build upon GMPP standards.
+Components:
+- NISTAParser: Parse JSON, CSV, and Excel formats
+- NISTAValidator: Validate compliance at three strictness levels
+- NISTAExporter: Export to NISTA-compliant formats (coming soon)
 """
 
-__all__ = []  # No public API until schema is available
+from .parser import NISTAParser
+from .validator import NISTAValidator, StrictnessLevel, ValidationResult, ValidationIssue
+
+__all__ = [
+    "NISTAParser",
+    "NISTAValidator",
+    "StrictnessLevel",
+    "ValidationResult",
+    "ValidationIssue",
+]
